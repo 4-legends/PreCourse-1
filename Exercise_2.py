@@ -6,11 +6,47 @@ class Node:
  
 class Stack:
     def __init__(self):
+        self.stack = Node(None)
         
     def push(self, data):
-        
+        if self.stack.data is None:
+            self.stack.data = data
+        else:
+            new_node = Node(data)
+            new_node.next = self.stack
+            self.stack = new_node
+
     def pop(self):
-        
+        if self.stack.data is None:
+            return None
+        data = self.stack.data
+        self.stack = self.stack.next
+        return data
+
+    def isEmpty(self):
+        return self.stack.data is None
+
+    def peek(self):
+        return self.pop()
+
+    def size(self):
+        if self.isEmpty():
+            return 0
+        length = 0
+        temp = self.stack
+        while temp is not None:
+            length += 1
+            temp = temp.next
+        return length
+
+    def show(self):
+        stack = []
+        temp = self.stack
+        while temp is not None:
+            stack.append(temp.data)
+            temp = temp.next
+        return stack    
+
 a_stack = Stack()
 while True:
     #Give input as string if getting an EOF error. Give input like "push 10" or "pop"
@@ -30,3 +66,5 @@ while True:
             print('Popped value: ', int(popped))
     elif operation == 'quit':
         break
+    elif operation == 'show':
+        print(a_stack.show())
